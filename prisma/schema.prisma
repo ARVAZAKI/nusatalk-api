@@ -1,0 +1,65 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String        @id @default(uuid())
+  nickname            String
+  username            String
+  profile_pircture    String
+  language_preference String
+  otp_code            String
+  is_verified         Boolean       @default(false)
+  friends             Friend[]      @relation("UserFriends")
+  friendsOf           Friend[]      @relation("UserFriendOf")
+  GroupMember         GroupMember[]
+}
+
+model Friend {
+  id       String @id @default(uuid())
+  userId   String
+  friendId String
+  user     User   @relation("UserFriends", fields: [userId], references: [id])
+  friend   User   @relation("UserFriendOf", fields: [friendId], references: [id])
+}
+
+model Group {
+  id       String        @id @default(uuid())
+  name     String
+  member   GroupMember[]
+  messages Message[]
+}
+
+model GroupMember {
+  id      String @id @default(uuid())
+  groupId String
+  userId  String
+  user    User   @relation(fields: [userId], references: [id])
+  Group   Group  @relation(fields: [groupId], references: [id])
+}
+
+model Message {
+  id                    String  @id @default(uuid())
+  senderId              String
+  receptionId           String?
+  groupId               String?
+  content               String
+  language              String
+  translated_content    String?
+  file_url              String?
+  voice_url             String?
+  translated_voice_note String?
+
+  group Group? @relation(fields: [groupId], references: [id])
+}
