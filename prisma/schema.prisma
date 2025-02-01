@@ -17,7 +17,7 @@ model User {
   id                  String        @id @default(uuid())
   nickname            String
   username            String
-  profile_pircture    String
+  profile_picture    String
   language_preference String
   otp_code            String
   is_verified         Boolean       @default(false)

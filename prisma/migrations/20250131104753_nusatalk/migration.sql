@@ -3,7 +3,7 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "nickname" TEXT NOT NULL,
     "username" TEXT NOT NULL,
-    "profile_pircture" TEXT NOT NULL,
+    "profile_picture" TEXT NOT NULL,
     "language_preference" TEXT NOT NULL,
     "otp_code" TEXT NOT NULL,
     "is_verified" BOOLEAN NOT NULL DEFAULT false,
